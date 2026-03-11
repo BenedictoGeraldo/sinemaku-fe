@@ -9,7 +9,7 @@ export interface Movie {
 
 export interface TmdbResponse {
   page: number;
-  result: Movie[];
+  results: Movie[];
   total_pages: number;
   total_results: number;
 }

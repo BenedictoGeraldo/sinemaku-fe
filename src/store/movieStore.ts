@@ -61,4 +61,10 @@ export const useMovieStore = create<MovieStore>((set) => ({
       set({ loading: false });
     }
   },
+
+  // fetchAllMovies: async () => {
+  //   set({ loading: true });
+
+  //   const res = await tmdbInstance.get<TmdbResponse>("/search/movie?");
+  // },
 }));

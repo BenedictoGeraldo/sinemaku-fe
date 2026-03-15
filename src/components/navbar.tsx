@@ -42,7 +42,7 @@ export default function Navbar() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="rounded-md h-8 bg-[#424242] px-3 text-xs w-45 "
-              placeholder="Search movies..."
+              placeholder="Cari film..."
             />
           </form>
         </div>

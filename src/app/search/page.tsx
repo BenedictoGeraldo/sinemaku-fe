@@ -1,5 +1,4 @@
-import { tmdbInstance } from "@/services/tmdb";
-import { TmdbResponse, Movie } from "@/types/movie";
+import { SearchMovies } from "@/services/searchMovie";
 import MovieCard from "@/components/movieCard";
 import Navbar from "@/components/navbar";
 
@@ -20,38 +19,42 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     );
   }
 
-  let movies: Movie[] = [];
-
   try {
-    const res = await tmdbInstance.get<TmdbResponse>("/search/movie", {
-      params: { query: trimmedQuery },
-    });
-    movies = res.data.results;
-  } catch (error) {
-    console.error("API Error:", error);
-  }
+    const movies = await SearchMovies(trimmedQuery);
 
-  if (movies.length === 0) {
+    if (movies.length === 0) {
+      return (
+        <>
+          <Navbar />
+          <div className="p-3">
+            Hasil pencarian untuk <strong>{trimmedQuery}</strong> tidak
+            ditemukan.
+          </div>
+        </>
+      );
+    }
     return (
       <>
         <Navbar />
-        <div className="mt-2">
-          Hasil pencarian untuk {trimmedQuery} tidak ditemukan
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 p-3">
+          <h1 className="col-span-full">
+            Hasil Pencarian untuk {trimmedQuery}
+          </h1>
+
+          {movies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+      </>
+    );
+  } catch {
+    return (
+      <>
+        <Navbar />
+        <div className="p-3">
+          Terjadi kesalahan saat mengambil data film. Silahkan coba lagi
         </div>
       </>
     );
   }
-
-  return (
-    <>
-      <Navbar />
-      <div className="grid gap-4 grid-cols-2 md:grid-cols-4 lg:grid-cols-6 p-3">
-        <h1 className="col-span-full">Hasil Pencarian untuk {trimmedQuery}</h1>
-
-        {movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} />
-        ))}
-      </div>
-    </>
-  );
 }

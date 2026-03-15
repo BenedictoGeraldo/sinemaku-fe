@@ -28,7 +28,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     });
     movies = res.data.results;
   } catch (error) {
-    console.error(error);
+    console.error("API Error:", error);
   }
 
   if (movies.length === 0) {

@@ -6,22 +6,25 @@ interface MovieStore {
   trendingMovies: Movie[];
   popularMovies: Movie[];
   topRatedMovies: Movie[];
-  loading: boolean;
+  trendingLoading: boolean;
+  popularLoading: boolean;
+  topRatedLoading: boolean;
   fetchTrendingMovies: () => Promise<void>;
   fetchPopularMovies: () => Promise<void>;
   fetchTopRatedMovies: () => Promise<void>;
-  // fetchAllMovies: () => Promise<void>;
 }
 
 export const useMovieStore = create<MovieStore>((set) => ({
   trendingMovies: [],
   popularMovies: [],
   topRatedMovies: [],
-  loading: false,
+  trendingLoading: false,
+  popularLoading: false,
+  topRatedLoading: false,
 
   fetchTrendingMovies: async () => {
     try {
-      set({ loading: true });
+      set({ trendingLoading: true });
 
       const res = await tmdbInstance.get<TmdbResponse>("/movie/now_playing");
 
@@ -31,13 +34,13 @@ export const useMovieStore = create<MovieStore>((set) => ({
     } catch (error) {
       console.error("Error fetching trending movies:", error);
     } finally {
-      set({ loading: false });
+      set({ trendingLoading: false });
     }
   },
 
   fetchPopularMovies: async () => {
     try {
-      set({ loading: true });
+      set({ popularLoading: true });
 
       const res = await tmdbInstance.get<TmdbResponse>("/movie/popular");
 
@@ -45,26 +48,20 @@ export const useMovieStore = create<MovieStore>((set) => ({
     } catch (error) {
       console.error(error);
     } finally {
-      set({ loading: false });
+      set({ popularLoading: false });
     }
   },
 
   fetchTopRatedMovies: async () => {
     try {
-      set({ loading: true });
+      set({ topRatedLoading: true });
 
       const res = await tmdbInstance.get<TmdbResponse>("/movie/top_rated");
       set({ topRatedMovies: res.data.results });
     } catch (error) {
       console.error(error);
     } finally {
-      set({ loading: false });
+      set({ topRatedLoading: false });
     }
   },
-
-  // fetchAllMovies: async () => {
-  //   set({ loading: true });
-
-  //   const res = await tmdbInstance.get<TmdbResponse>("/search/movie?");
-  // },
 }));

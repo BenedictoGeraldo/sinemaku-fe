@@ -1,4 +1,5 @@
 import SearchView from "@/views/search";
+import Footer from "@/components/footer";
 
 type SearchPageProps = {
   searchParams: Promise<{ query?: string }>;
@@ -6,5 +7,10 @@ type SearchPageProps = {
 
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { query = "" } = await searchParams;
-  return <SearchView query={query} />;
+  return (
+    <>
+      <SearchView query={query} />
+      <Footer />
+    </>
+  );
 }

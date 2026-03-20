@@ -3,6 +3,7 @@
 import Navbar from "@/components/navbar";
 import WatchlistView from "@/views/watchlist";
 import { useWatchlistController } from "@/features/watchlist/useWatchlistController";
+import Footer from "@/components/footer";
 
 export default function WatchlistContainer() {
   const controller = useWatchlistController();
@@ -18,6 +19,7 @@ export default function WatchlistContainer() {
         onToggleWatched={controller.handleToggleWatched}
         onDelete={controller.handleDelete}
       />
+      <Footer />
     </>
   );
 }
